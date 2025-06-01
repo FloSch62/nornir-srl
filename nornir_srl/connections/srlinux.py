@@ -12,8 +12,8 @@ from nornir.core.configuration import Config
 from nornir.core.exceptions import ConnectionException
 
 from .helpers import strip_modules, normalize_gnmi_resp, lpm
-from .network_instance import NetworkInstanceMixin
-from .bgp import BgpMixin
+from .interfaces import NetworkInstanceMixin
+from .routing import BgpMixin
 
 CONNECTION_NAME = "srlinux"
 
