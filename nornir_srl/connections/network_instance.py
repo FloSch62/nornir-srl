@@ -89,7 +89,9 @@ class NetworkInstanceMixin:
                         )
                         vrf["_peers"] = " ".join(
                             (
-                                f"{peer['address']}(DF)" if peer["designated-forwarder"] else peer["address"]
+                                f"{peer['address']}(DF)"
+                                if peer["designated-forwarder"]
+                                else peer["address"]
                             )
                             for peer in es_peers
                         )
@@ -102,7 +104,9 @@ class NetworkInstanceMixin:
             ]
         ):
             return {"es": []}
-        resp = self.get(paths=[path_spec.get("path", "")], datatype=path_spec["datatype"])
+        resp = self.get(
+            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
+        )
         set_es_peers(resp)
         res = jmespath.search(path_spec["jmespath"], resp[0])
         return {"es": res}
@@ -120,15 +124,23 @@ class NetworkInstanceMixin:
                 if ni_itf["name"] not in ni_itf_map:
                     ni_itf_map[ni_itf["name"]] = []
                 ni_itf_map[ni_itf["name"]].append(ni["name"])
-        resp = self.get(paths=[path_spec.get("path", "")], datatype=path_spec["datatype"])
+        resp = self.get(
+            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
+        )
         for itf in resp[0].get("interface", []):
             for subitf in itf.get("subinterface", []):
                 subitf["_subitf"] = f"{itf['name']}.{subitf['index']}"
                 subitf["_ni"] = ni_itf_map.get(subitf["_subitf"], [])
-                for arp_entry in subitf.get("ipv4", {}).get("arp", {}).get("neighbor", []):
+                for arp_entry in (
+                    subitf.get("ipv4", {}).get("arp", {}).get("neighbor", [])
+                ):
                     try:
-                        ts = datetime.datetime.strptime(arp_entry["expiration-time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-                        arp_entry["_rel_expiry"] = str(ts - datetime.datetime.now()).split(".")[0] + "s"
+                        ts = datetime.datetime.strptime(
+                            arp_entry["expiration-time"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                        )
+                        arp_entry["_rel_expiry"] = (
+                            str(ts - datetime.datetime.now()).split(".")[0] + "s"
+                        )
                     except Exception:
                         arp_entry["_rel_expiry"] = "-"
         res = jmespath.search(path_spec["jmespath"], resp[0])
@@ -140,16 +152,24 @@ class NetworkInstanceMixin:
             "jmespath": '"interface"[*].subinterface[].{interface:"_subitf", entries:ipv6."neighbor-discovery".neighbor[].{IPv6:"ipv6-address",MAC:"link-layer-address",State:"current-state",Type:origin,next_state:"_rel_expiry" }}',
             "datatype": "state",
         }
-        resp = self.get(paths=[path_spec.get("path", "")], datatype=path_spec["datatype"])
+        resp = self.get(
+            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
+        )
         for itf in resp[0].get("interface", []):
             for subitf in itf.get("subinterface", []):
                 subitf["_subitf"] = f"{itf['name']}.{subitf['index']}"
                 for nd_entry in (
-                    subitf.get("ipv6", {}).get("neighbor-discovery", {}).get("neighbor", [])
+                    subitf.get("ipv6", {})
+                    .get("neighbor-discovery", {})
+                    .get("neighbor", [])
                 ):
                     try:
-                        ts = datetime.datetime.strptime(nd_entry["next-state-time"], "%Y-%m-%dT%H:%M:%S.%fZ")
-                        nd_entry["_rel_expiry"] = str(ts - datetime.datetime.now()).split(".")[0] + "s"
+                        ts = datetime.datetime.strptime(
+                            nd_entry["next-state-time"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                        )
+                        nd_entry["_rel_expiry"] = (
+                            str(ts - datetime.datetime.now()).split(".")[0] + "s"
+                        )
                     except Exception:
                         nd_entry["_rel_expiry"] = "-"
         res = jmespath.search(path_spec["jmespath"], resp[0])
