@@ -1,13 +1,22 @@
 # Network instance related methods extracted from srlinux.py
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import datetime
 import jmespath
 
 
 class NetworkInstanceMixin:
     """Mixin providing network-instance related getters."""
+
+    def get(
+        self,
+        paths: List[str],
+        datatype: Optional[str] = "config",
+        strip_mod: Optional[bool] = True,
+    ) -> List[Dict[str, Any]]:
+        """Placeholder method implemented in :class:`SrLinux`."""
+        raise NotImplementedError
 
     def get_nwi_itf(self, nw_instance: str = "*") -> Dict[str, Any]:
         SUBITF_PATH = "/interface[name=*]/subinterface"

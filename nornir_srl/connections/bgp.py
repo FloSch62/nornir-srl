@@ -9,6 +9,17 @@ import jmespath
 class BgpMixin:
     """Mixin providing BGP related getters."""
 
+    capabilities: Optional[Dict[str, Any]]
+
+    def get(
+        self,
+        paths: List[str],
+        datatype: Optional[str] = "config",
+        strip_mod: Optional[bool] = True,
+    ) -> List[Dict[str, Any]]:
+        """Placeholder method implemented in :class:`SrLinux`."""
+        raise NotImplementedError
+
     def get_bgp_rib(
         self,
         route_fam: str,
