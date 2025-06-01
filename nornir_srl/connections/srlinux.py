@@ -1,19 +1,20 @@
-from typing import TYPE_CHECKING, Any, List, Dict, Optional, Union
+from typing import Any, List, Dict, Optional, Union
 import difflib
 import json
 import re
 
-import jmespath
 
 from pygnmi.client import gNMIclient
 
-from nornir.core.plugins.connections import ConnectionPlugin
 from nornir.core.configuration import Config
 from nornir.core.exceptions import ConnectionException
 
-from .helpers import strip_modules, normalize_gnmi_resp, lpm
+from .helpers import strip_modules, normalize_gnmi_resp
 from .interfaces import NetworkInstanceMixin
-from .routing import BgpMixin
+from .routing import RoutingMixin
+from .layer2 import Layer2Mixin
+from .neighbor_discovery import NeighborDiscoveryMixin
+from .system import SystemMixin
 
 CONNECTION_NAME = "srlinux"
 
@@ -62,7 +63,9 @@ class GnmiPath:
         return None
 
 
-class SrLinux(NetworkInstanceMixin, BgpMixin):
+class SrLinux(
+    NetworkInstanceMixin, RoutingMixin, Layer2Mixin, NeighborDiscoveryMixin, SystemMixin
+):
     def open(
         self,
         hostname: Optional[str],
@@ -97,251 +100,6 @@ class SrLinux(NetworkInstanceMixin, BgpMixin):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__} on {self.hostname}"
-
-    def get_info(self) -> Dict[str, Any]:
-        path_specs: List[Dict[str, Any]] = [
-            {
-                "path": "/platform/chassis",
-                "datatype": "state",
-                "fields": [
-                    "type",
-                    "serial-number",
-                    "part-number",
-                    "hw-mac-address",
-                    "last-booted",
-                ],
-            },
-            {
-                "path": "/platform/control[slot=A]",
-                "datatype": "state",
-                "fields": [
-                    "software-version",
-                ],
-            },
-        ]
-        result = {}
-        for spec in path_specs:
-            resp = self.get(paths=[spec.get("path", "")], datatype=spec["datatype"])
-            for path in resp[0]:
-                result.update(
-                    {k: v for k, v in resp[0][path].items() if k in spec["fields"]}
-                )
-        if result.get("software-version"):
-            result["software-version"] = (
-                result["software-version"].split("-")[0].lstrip("v")
-            )
-
-        return {"sys_info": [result]}
-
-    def get_sum_subitf(self, interface: str = "*") -> Dict[str, Any]:
-        path_spec = {
-            "path": f"/interface[name={interface}]/subinterface",
-            "jmespath": 'interface[].{Itf:name, subitfs: subinterface[].{Subitf:name,\
-                      type:type, admin:"admin-state",oper:"oper-state", \
-                        ipv4: ipv4.address[]."ip-prefix", ipv6: ipv6.address[]."ip-prefix", vlan: vlan.encap."single-tagged"."vlan-id"}}',
-            "datatype": "state",
-            "key": "index",
-        }
-        resp = self.get(
-            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
-        )
-        res = jmespath.search(path_spec["jmespath"], resp[0])
-        return {"subinterface": res}
-
-    def get_lldp_sum(self, interface: Optional[str] = "*") -> Dict[str, Any]:
-        path_spec = {
-            "path": f"/system/lldp/interface[name={interface}]/neighbor",
-            "jmespath": '"system/lldp".interface[].{interface:name, Neighbors:neighbor[].{"Nbr-port":"port-id",\
-                    "Nbr-System":"system-name", "Nbr-port-desc":"port-description"}}',
-            "datatype": "state",
-        }
-        resp = self.get(
-            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
-        )
-        res = jmespath.search(path_spec["jmespath"], resp[0])
-        return {"lldp_nbrs": res}
-
-    def get_mac_table(self, network_instance: Optional[str] = "*") -> Dict[str, Any]:
-        path_spec = {
-            "path": f"/network-instance[name={network_instance}]/bridge-table/mac-table/mac",
-            "jmespath": '"network-instance"[].{"NI":name, Fib:"bridge-table"."mac-table".mac[].{Address:address,\
-                        Dest:destination, Type:type}}',
-            "datatype": "state",
-        }
-        if (
-            not "bridged"
-            in self.get(paths=["/system/features"], datatype="state")[0][
-                "system/features"
-            ]
-        ):
-            return {"mac_table": []}
-        resp = self.get(
-            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
-        )
-        res = jmespath.search(path_spec["jmespath"], resp[0])
-        return {"mac_table": res}
-
-    def get_rib(
-        self,
-        afi: str,
-        network_instance: Optional[str] = "*",
-        lpm_address: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        path_spec = {
-            "path": f"/network-instance[name={network_instance}]/route-table/{afi}",
-            "jmespath": '"network-instance"[?_hasrib].{NI:name, Rib:"route-table"."'
-            + afi
-            + '".route[].{"Prefix":"'
-            + ("ipv4-prefix" if afi == "ipv4-unicast" else "ipv6-prefix")
-            + '",\
-                    "next-hop":"_next-hop",type:"route-type", Act:active, "orig-vrf":"_orig_vrf",metric:metric, pref:preference, itf:"_nh_itf"}}',
-            "datatype": "state",
-        }
-
-        nhgroups = self.get(
-            paths=[
-                f"/network-instance[name={network_instance}]/route-table/next-hop-group[index=*]"
-            ],
-            datatype="state",
-        )
-        nhs = self.get(
-            paths=[
-                f"/network-instance[name={network_instance}]/route-table/next-hop[index=*]"
-            ],
-            datatype="state",
-        )
-
-        nh_mapping = {}
-        for ni in nhs[0].get("network-instance", {}):
-            tmp_map = {}
-            for nh in ni["route-table"]["next-hop"]:
-                tmp_map[nh["index"]] = {
-                    "ip-address": nh.get("ip-address"),
-                    "type": nh.get("type"),
-                    "subinterface": nh.get("subinterface"),
-                }
-                if "resolving-tunnel" in nh:
-                    tmp_map[nh["index"]].update(
-                        {
-                            "tunnel": (nh.get("resolving-tunnel")).get("tunnel-type")
-                            + ":"
-                            + (nh.get("resolving-tunnel")).get("ip-prefix")
-                        }
-                    )
-                if "resolving-route" in nh:
-                    tmp_map[nh["index"]].update(
-                        {
-                            "resolving-route": (nh.get("resolving-route")).get(
-                                "ip-prefix"
-                            )
-                        }
-                    )
-
-            nh_mapping.update({ni["name"]: tmp_map})
-        nhgroup_mapping = {}
-        for ni in nhgroups[0].get("network-instance", {}):
-            network_instance = ni["name"]
-            nh_map: Dict[str, List] = {}
-            for nhgroup in ni["route-table"]["next-hop-group"]:
-                #                    tmp_map[nhgroup["index"]] = [ nh["next-hop"] for nh in nhgroup["next-hop"] ]
-                nh_map[nhgroup["index"]] = [
-                    nh_mapping[network_instance][nh.get("next-hop")]
-                    for nh in nhgroup.get("next-hop", [])
-                ]
-            nhgroup_mapping.update({ni["name"]: nh_map})
-
-        resp = self.get(
-            paths=[path_spec.get("path", "")], datatype=path_spec["datatype"]
-        )
-        for ni in resp[0].get("network-instance", {}):
-            if len(ni["route-table"][afi]) == 0:
-                ni["_hasrib"] = False
-            else:
-                ni["_hasrib"] = True
-                if lpm_address:
-                    lpm_prefix = lpm(
-                        lpm_address,
-                        [
-                            route[
-                                (
-                                    "ipv4-prefix"
-                                    if afi == "ipv4-unicast"
-                                    else "ipv6-prefix"
-                                )
-                            ]
-                            for route in ni["route-table"][afi]["route"]
-                        ],
-                    )
-                    if lpm_prefix:
-                        ni["route-table"][afi]["route"] = [
-                            r
-                            for r in ni["route-table"][afi]["route"]
-                            if r[
-                                (
-                                    "ipv4-prefix"
-                                    if afi == "ipv4-unicast"
-                                    else "ipv6-prefix"
-                                )
-                            ]
-                            == lpm_prefix
-                        ]
-                    else:
-                        ni["route-table"][afi]["route"] = []
-                        ni["_hasrib"] = False
-                        continue
-                for route in ni["route-table"][afi]["route"]:
-                    if route["active"]:
-                        route["active"] = "yes"
-                    else:
-                        route["active"] = "no"
-                    if "next-hop-group" in route:
-                        leaked = False
-                        if "origin-network-instance" in route:
-                            nh_ni = route["origin-network-instance"]
-                            if nh_ni != ni["name"]:
-                                leaked = True
-                                route["_orig_vrf"] = nh_ni
-                        else:
-                            nh_ni = ni["name"]
-                        route["_next-hop"] = [
-                            nh.get("ip-address")
-                            for nh in nhgroup_mapping[nh_ni].get(
-                                route["next-hop-group"], {}
-                            )
-                        ]
-
-                        route["_nh_itf"] = [
-                            (
-                                nh.get("subinterface") + f"@vrf:{nh_ni}"
-                                if leaked
-                                else nh.get("subinterface")
-                            )
-                            for nh in nhgroup_mapping[nh_ni].get(
-                                route["next-hop-group"], {}
-                            )
-                            if nh.get("subinterface")
-                        ]
-                        if len(route["_nh_itf"]) == 0:
-                            route["_nh_itf"] = [
-                                nh.get("tunnel")
-                                for nh in nhgroup_mapping[nh_ni].get(
-                                    route["next-hop-group"], {}
-                                )
-                                if nh.get("tunnel")
-                            ]
-                        if len(route["_nh_itf"]) == 0:
-                            resolving_routes = [
-                                nh.get("resolving-route", {})
-                                for nh in nhgroup_mapping[nh_ni].get(
-                                    route["next-hop-group"], {}
-                                )
-                                if nh.get("resolving-route")
-                            ]
-        #                            if len(resolving_routes) > 0:
-        #                                route["_nh_itf"] = [ rt.get("_nh_itf") for rt in ni["route-table"]["ipv4-unicast"]["route"] if rt.get("ipv4-prefix") in [ res_rt.get("ip-prefix") for res_rt in resolving_routes ] ]
-
-        res = jmespath.search(path_spec["jmespath"], resp[0])
-        return {"ip_rib": res}
 
     def get(
         self,
