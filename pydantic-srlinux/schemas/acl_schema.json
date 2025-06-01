@@ -1,0 +1,2807 @@
+{
+  "$defs": {
+    "AcceptCase": {
+      "properties": {
+        "accept": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AcceptContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "AcceptCase",
+      "type": "object"
+    },
+    "AcceptContainer": {
+      "description": "Accept matching packets and forward them towards their normal destination",
+      "properties": {
+        "forwarding_class": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,/_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,/_:;?-]*$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forwarding Class"
+        },
+        "profile": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum8"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rate_limit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RateLimitContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "forward": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ForwardContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "AcceptContainer",
+      "type": "object"
+    },
+    "AclContainer": {
+      "description": "Top level container for configuration and operational state related to access control lists (ACLs)",
+      "properties": {
+        "acl_filter": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/AclFilterListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acl Filter"
+        },
+        "interface": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/InterfaceListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interface"
+        },
+        "policers": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PolicersContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "datapath_programming": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatapathProgrammingContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "match_list": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MatchListContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tcam_profile": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum10"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "egress_mac_filtering": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "title": "Egress Mac Filtering"
+        }
+      },
+      "title": "AclContainer",
+      "type": "object"
+    },
+    "AclFilterListEntry": {
+      "description": "List of MAC, IPv4, IPv6 filter policies",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EnumerationEnum"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "entry": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/EntryListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entry"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "title": "AclFilterListEntry",
+      "type": "object"
+    },
+    "AclFilterListEntry2": {
+      "description": "MAC, IPv4, IPv6 ACL filter(s) to be applied on this subinterface direction\n\nOn 7220 and 7250 IXR platforms only a single MAC, IPv4 or IPv6 filter is supported.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EnumerationEnum"
+        },
+        "entry": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/EntryListEntry2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entry"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "title": "AclFilterListEntry2",
+      "type": "object"
+    },
+    "ActionContainer": {
+      "description": "Container for the actions to be applied to packets matching the filter entry.",
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AcceptCase"
+            },
+            {
+              "$ref": "#/$defs/DropCase"
+            },
+            {
+              "$ref": "#/$defs/CopyCase"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "collect_stats": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "title": "Collect Stats"
+        }
+      },
+      "title": "ActionContainer",
+      "type": "object"
+    },
+    "AggregateContainer": {
+      "description": "None of these statistics are populated if the policer is configured as entry-specific=true.\n\nIf entry-specific=false and subinterface-specific=true, this is sum of all the entries and all the policer templates instantiated for all subintrefaces.\n\nIf entry-specific=false and subinterface-specific=false, this is sum of all the entries using this policer template.",
+      "properties": {
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "conforming_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Packets"
+        },
+        "conforming_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Octets"
+        },
+        "exceeding_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Packets"
+        },
+        "exceeding_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Octets"
+        }
+      },
+      "title": "AggregateContainer",
+      "type": "object"
+    },
+    "CodeLeafList": {
+      "maximum": 255,
+      "minimum": 0,
+      "title": "CodeLeafList",
+      "type": "integer"
+    },
+    "CodeLeafList2": {
+      "maximum": 255,
+      "minimum": 0,
+      "title": "CodeLeafList2",
+      "type": "integer"
+    },
+    "CopyCase": {
+      "properties": {},
+      "title": "CopyCase",
+      "type": "object"
+    },
+    "DatapathProgrammingContainer": {
+      "description": "Container to represent the progress of ACL datapath programming",
+      "properties": {
+        "forwarding_complex": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ForwardingComplexListEntry2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forwarding Complex"
+        }
+      },
+      "title": "DatapathProgrammingContainer",
+      "type": "object"
+    },
+    "DestinationIpContainer": {
+      "description": "Packet matching criteria based on destination IPv4 address",
+      "properties": {
+        "prefix": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        },
+        "prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix List"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "mask": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mask"
+        }
+      },
+      "title": "DestinationIpContainer",
+      "type": "object"
+    },
+    "DestinationIpContainer2": {
+      "description": "Packet matching criteria based on destination IPv6 address",
+      "properties": {
+        "prefix": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        },
+        "prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListListEntry3"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix List"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "mask": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mask"
+        }
+      },
+      "title": "DestinationIpContainer2",
+      "type": "object"
+    },
+    "DestinationPortContainer": {
+      "description": "A packet matches this condition if its destination TCP or UDP port number matches the value or range that is specified\n\nThe rule should also have a condition that the IP protocol equals 6 (TCP) or 17 (UDP) in order for this to be interpreted correctly.",
+      "properties": {
+        "operator": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum6"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RangeContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "DestinationPortContainer",
+      "type": "object"
+    },
+    "DropCase": {
+      "properties": {
+        "drop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DropContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "DropCase",
+      "type": "object"
+    },
+    "DropContainer": {
+      "description": "Drop matching packets.\n\nDropped IP packets do not result in sending ICMP messages back to the source",
+      "properties": {},
+      "title": "DropContainer",
+      "type": "object"
+    },
+    "DscpValueType": {
+      "maximum": 63,
+      "minimum": 0,
+      "title": "DscpValueType",
+      "type": "integer"
+    },
+    "EntryListEntry": {
+      "description": "List of ACL entries comprising an ACL Filter",
+      "properties": {
+        "sequence_id": {
+          "maximum": 65535,
+          "minimum": 0,
+          "title": "Sequence Id",
+          "type": "integer"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "match": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MatchContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ActionContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "statistics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatisticsContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tcam_entries": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TcamEntriesContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "sequence_id"
+      ],
+      "title": "EntryListEntry",
+      "type": "object"
+    },
+    "EntryListEntry2": {
+      "description": "ACL Filter statistics per entry and per subinterface",
+      "properties": {
+        "sequence_id": {
+          "maximum": 65535,
+          "minimum": 0,
+          "title": "Sequence Id",
+          "type": "integer"
+        },
+        "statistics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatisticsContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "policer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PolicerContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "sequence_id"
+      ],
+      "title": "EntryListEntry2",
+      "type": "object"
+    },
+    "EnumerationEnum": {
+      "enum": [
+        "ipv4",
+        "ipv6",
+        "mac"
+      ],
+      "title": "EnumerationEnum",
+      "type": "string"
+    },
+    "EnumerationEnum10": {
+      "enum": [
+        "default",
+        "ipv4-egress-scaled",
+        "acl-mfc-ipv4-only"
+      ],
+      "title": "EnumerationEnum10",
+      "type": "string"
+    },
+    "EnumerationEnum2": {
+      "enum": [
+        "CS0",
+        "LE",
+        "CS1",
+        "AF11",
+        "AF12",
+        "AF13",
+        "CS2",
+        "AF21",
+        "AF22",
+        "AF23",
+        "CS3",
+        "AF31",
+        "AF32",
+        "AF33",
+        "CS4",
+        "AF41",
+        "AF42",
+        "AF43",
+        "CS5",
+        "EF",
+        "CS6",
+        "CS7"
+      ],
+      "title": "EnumerationEnum2",
+      "type": "string"
+    },
+    "EnumerationEnum3": {
+      "enum": [
+        "echo-reply",
+        "dest-unreachable",
+        "source-quench",
+        "redirect",
+        "echo",
+        "router-advertise",
+        "router-solicit",
+        "time-exceeded",
+        "param-problem",
+        "timestamp",
+        "timestamp-reply"
+      ],
+      "title": "EnumerationEnum3",
+      "type": "string"
+    },
+    "EnumerationEnum4": {
+      "enum": [
+        "ipv6-hop",
+        "icmp",
+        "igmp",
+        "ggp",
+        "ipv4",
+        "st",
+        "tcp",
+        "egp",
+        "igp",
+        "udp",
+        "ipv6",
+        "idrp",
+        "rsvp",
+        "gre",
+        "esp",
+        "ah",
+        "icmp6",
+        "no-next-hdr",
+        "ipv6-dest-opts",
+        "eigrp",
+        "ospf",
+        "pim",
+        "vrrp",
+        "l2tp",
+        "sctp",
+        "mpls-in-ip",
+        "rohc"
+      ],
+      "title": "EnumerationEnum4",
+      "type": "string"
+    },
+    "EnumerationEnum5": {
+      "enum": [
+        "dest-unreachable",
+        "packet-too-big",
+        "time-exceeded",
+        "param-problem",
+        "echo-request",
+        "echo-reply",
+        "mld-query",
+        "mld-report",
+        "mld-done",
+        "router-solicit",
+        "router-advertise",
+        "neighbor-solicit",
+        "neighbor-advertise",
+        "redirect",
+        "router-renumber",
+        "node-info-query",
+        "node-info-response",
+        "mld-v2",
+        "mcast-rtr-adv",
+        "mcast-rtr-solicit",
+        "mcast-rtr-term"
+      ],
+      "title": "EnumerationEnum5",
+      "type": "string"
+    },
+    "EnumerationEnum6": {
+      "enum": [
+        "le",
+        "ge",
+        "eq"
+      ],
+      "title": "EnumerationEnum6",
+      "type": "string"
+    },
+    "EnumerationEnum7": {
+      "enum": [
+        "acap",
+        "afp-tcp",
+        "arns",
+        "asf-rmcp",
+        "ashare",
+        "atalk-rm",
+        "aurp",
+        "auth",
+        "bfd",
+        "bfd-echo",
+        "bftp",
+        "bgmp",
+        "bgp",
+        "bootpc",
+        "bootps",
+        "ccso-ns",
+        "chargen",
+        "cisco-tdp",
+        "citadel",
+        "clearcase",
+        "commerce",
+        "courier",
+        "daytime",
+        "dhcpv6-client",
+        "dhcpv6-server",
+        "dhcp-failover",
+        "dicom",
+        "discard",
+        "dnsix",
+        "domain",
+        "dsp",
+        "echo",
+        "epp",
+        "esro",
+        "exec",
+        "finger",
+        "ftp",
+        "ftp-data",
+        "ftps",
+        "ftps-data",
+        "godi",
+        "gopher",
+        "gtp-c",
+        "gtp-prime",
+        "gtp-u",
+        "ha-cluster",
+        "hostname",
+        "hp-alarm-mgr",
+        "http",
+        "http-alt",
+        "http-mgmt",
+        "http-rpc",
+        "https",
+        "ieee-mms-ssl",
+        "imap",
+        "imap3",
+        "imaps",
+        "ipp",
+        "ipsec",
+        "ipx",
+        "irc",
+        "iris-beep",
+        "isakmp",
+        "isakmp-nat",
+        "iscsi",
+        "iso-tsap",
+        "kerberos",
+        "kerberos-adm",
+        "klogin",
+        "kpasswd",
+        "kshell",
+        "l2tp",
+        "ldap",
+        "ldaps",
+        "ldp",
+        "lmp",
+        "login",
+        "lpd",
+        "lsp-ping",
+        "mac-server-adm",
+        "matip-a",
+        "matip-b",
+        "micro-bfd",
+        "microsoft-ds",
+        "mobile-ip",
+        "monitor",
+        "mpp",
+        "mssql-m",
+        "mssql-s",
+        "msdp",
+        "ms-exchange",
+        "msp",
+        "multihop-bfd",
+        "nas",
+        "ncp",
+        "netrjs-1",
+        "netrjs-2",
+        "netrjs-3",
+        "netrjs-4",
+        "netbios-data",
+        "netbios-ns",
+        "netbios-ss",
+        "netnews",
+        "netwall",
+        "new-rwho",
+        "nfs",
+        "nntp",
+        "nntps",
+        "ntp",
+        "odmr",
+        "olsr",
+        "openvpn",
+        "pim-auto-rp",
+        "pkix-timestamp",
+        "pop2",
+        "pop3",
+        "pop3s",
+        "pptp",
+        "ptp-event",
+        "ptp-general",
+        "print-srv",
+        "qmtp",
+        "qotd",
+        "radius",
+        "radius-acct",
+        "remote-mail",
+        "remotefs",
+        "remotecmd",
+        "rip",
+        "rje",
+        "rlp",
+        "rlzdb",
+        "rmc",
+        "rmonitor",
+        "rpc2portmap",
+        "rsync",
+        "rtelnet",
+        "rtsp",
+        "sgmp",
+        "silc",
+        "smux",
+        "sna-gw",
+        "snmp",
+        "snmp-trap",
+        "snpp",
+        "smtp",
+        "sql-svcs",
+        "sql",
+        "ssh",
+        "submission",
+        "sunrpc",
+        "svcloc",
+        "syslog",
+        "systat",
+        "tacacs",
+        "talk",
+        "tcpmux",
+        "tcpnethaspsrv",
+        "tftp",
+        "time",
+        "timed",
+        "ups",
+        "xdmcp",
+        "xns-ch",
+        "xns-mail",
+        "xns-time",
+        "z3950"
+      ],
+      "title": "EnumerationEnum7",
+      "type": "string"
+    },
+    "EnumerationEnum8": {
+      "enum": [
+        "in",
+        "out",
+        "exceed",
+        "in-plus",
+        "in-low",
+        "out-low"
+      ],
+      "title": "EnumerationEnum8",
+      "type": "string"
+    },
+    "EnumerationEnum9": {
+      "enum": [
+        "global",
+        "subinterface"
+      ],
+      "title": "EnumerationEnum9",
+      "type": "string"
+    },
+    "ForwardContainer": {
+      "description": "Enable the next-hop context",
+      "properties": {
+        "forward_action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NextHopCase"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "ForwardContainer",
+      "type": "object"
+    },
+    "ForwardingComplexListEntry": {
+      "description": "List of forwarding complexes in the system",
+      "properties": {
+        "complex_identifier": {
+          "title": "Complex Identifier",
+          "type": "string"
+        },
+        "single_instance": {
+          "anyOf": [
+            {
+              "maximum": 65535,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Single Instance"
+        }
+      },
+      "required": [
+        "complex_identifier"
+      ],
+      "title": "ForwardingComplexListEntry",
+      "type": "object"
+    },
+    "ForwardingComplexListEntry2": {
+      "description": "List of forwarding complexes that are currently installed and online",
+      "properties": {
+        "slot_id": {
+          "maximum": 255,
+          "minimum": 0,
+          "title": "Slot Id",
+          "type": "integer"
+        },
+        "complex_id": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Complex Id",
+          "type": "integer"
+        },
+        "programming_complete": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Programming Complete"
+        },
+        "last_completed_timestamp": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Completed Timestamp"
+        }
+      },
+      "required": [
+        "slot_id",
+        "complex_id"
+      ],
+      "title": "ForwardingComplexListEntry2",
+      "type": "object"
+    },
+    "Icmp6Container": {
+      "description": "A packet matches this condition if its ICMPv6 type and code matches one of the specified combinations\n\nThe rule should also have a condition that the next-header value equals 58 (ICMPv6) in order for this to be interpreted correctly.",
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Icmp6TypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum5"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/CodeLeafList2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "title": "Code"
+        }
+      },
+      "title": "Icmp6Container",
+      "type": "object"
+    },
+    "Icmp6TypeType1": {
+      "maximum": 255,
+      "minimum": 0,
+      "title": "Icmp6TypeType1",
+      "type": "integer"
+    },
+    "IcmpContainer": {
+      "description": "A packet matches this condition if its ICMP type and code matches one of the specified combinations\n\nThe rule should also have a condition that the IP protocol equals 1 (ICMP) in order for this to be interpreted correctly.",
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IcmpTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum3"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/CodeLeafList"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "title": "Code"
+        }
+      },
+      "title": "IcmpContainer",
+      "type": "object"
+    },
+    "IcmpTypeType1": {
+      "maximum": 255,
+      "minimum": 0,
+      "title": "IcmpTypeType1",
+      "type": "integer"
+    },
+    "InputContainer": {
+      "description": "Container for ACL filters that apply to ingress traffic on the subinterface",
+      "properties": {
+        "acl_filter": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/AclFilterListEntry2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acl Filter"
+        },
+        "statistics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatisticsContainer3"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "InputContainer",
+      "type": "object"
+    },
+    "InterfaceListEntry": {
+      "description": "List of interfaces and subinterfaces referencing ACL filters.",
+      "properties": {
+        "interface_id": {
+          "title": "Interface Id",
+          "type": "string"
+        },
+        "interface_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InterfaceRefContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "input": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "interface_id"
+      ],
+      "title": "InterfaceListEntry",
+      "type": "object"
+    },
+    "InterfaceRefContainer": {
+      "description": "Reference to an interface or subinterface",
+      "properties": {
+        "interface": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interface"
+        },
+        "subinterface": {
+          "anyOf": [
+            {
+              "maximum": 9999,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subinterface"
+        }
+      },
+      "title": "InterfaceRefContainer",
+      "type": "object"
+    },
+    "IpProtocolTypeType1": {
+      "maximum": 255,
+      "minimum": 0,
+      "title": "IpProtocolTypeType1",
+      "type": "integer"
+    },
+    "Ipv4AddressType": {
+      "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+      "title": "Ipv4AddressType",
+      "type": "string"
+    },
+    "Ipv4Container": {
+      "description": "Container for the common layer-3 IPv4 match criteria",
+      "properties": {
+        "destination_ip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DestinationIpContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "dscp_set": {
+          "anyOf": [
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DscpValueType"
+                  },
+                  {
+                    "$ref": "#/$defs/EnumerationEnum2"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "title": "Dscp Set"
+        },
+        "fragment": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fragment"
+        },
+        "first_fragment": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Fragment"
+        },
+        "icmp": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IcmpContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "protocol": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IpProtocolTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum4"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Protocol"
+        },
+        "source_ip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceIpContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Ipv4Container",
+      "type": "object"
+    },
+    "Ipv4PrefixListListEntry": {
+      "description": "A user defined IPv4 prefix list description",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "prefix": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Ipv4PrefixListListEntry",
+      "type": "object"
+    },
+    "Ipv6AddressType": {
+      "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+      "title": "Ipv6AddressType",
+      "type": "string"
+    },
+    "Ipv6Container": {
+      "description": "Container for the common layer-3 IPv6 match criteria",
+      "properties": {
+        "destination_ip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DestinationIpContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "dscp_set": {
+          "anyOf": [
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DscpValueType"
+                  },
+                  {
+                    "$ref": "#/$defs/EnumerationEnum2"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "title": "Dscp Set"
+        },
+        "icmp6": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Icmp6Container"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "next_header": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IpProtocolTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum4"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Header"
+        },
+        "source_ip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceIpContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Ipv6Container",
+      "type": "object"
+    },
+    "Ipv6PrefixListListEntry": {
+      "description": "A user defined IPv6 prefix list description",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "prefix": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListEntry2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Ipv6PrefixListListEntry",
+      "type": "object"
+    },
+    "L4PortTypeType1": {
+      "maximum": 65535,
+      "minimum": 0,
+      "title": "L4PortTypeType1",
+      "type": "integer"
+    },
+    "MatchContainer": {
+      "description": "Container for the conditions that determine whether a packet matches this entry",
+      "properties": {
+        "ipv4": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4Container"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ipv6": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv6Container"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transport": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TransportContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "network_instance": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,_:;?-]*$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Network Instance"
+        }
+      },
+      "title": "MatchContainer",
+      "type": "object"
+    },
+    "MatchListContainer": {
+      "description": "Top level container for match list model config and operational state data",
+      "properties": {
+        "ipv4_prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Ipv4PrefixListListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ipv4 Prefix List"
+        },
+        "ipv6_prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Ipv6PrefixListListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ipv6 Prefix List"
+        }
+      },
+      "title": "MatchListContainer",
+      "type": "object"
+    },
+    "NextHopCase": {
+      "properties": {
+        "next_hop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NextHopContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "NextHopCase",
+      "type": "object"
+    },
+    "NextHopContainer": {
+      "properties": {
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        }
+      },
+      "title": "NextHopContainer",
+      "type": "object"
+    },
+    "PolicerContainer": {
+      "description": "Policer stats for traffic matching the entry:\n\nStatistics under /acl/interfaces for policer configured with scope=subinterface and entry-specific=true, and acl configured with subinterface-specific=input-and-output.",
+      "properties": {
+        "conforming_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Packets"
+        },
+        "conforming_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Octets"
+        },
+        "exceeding_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Packets"
+        },
+        "exceeding_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Octets"
+        }
+      },
+      "title": "PolicerContainer",
+      "type": "object"
+    },
+    "PolicerContainer2": {
+      "description": "Policer stats for traffic matching one or multiple entries:\n\nList of ACL policer statistics of scope=subinterface and per-entry-statistics=false, and acl configured with subinterface-specific=false.",
+      "properties": {
+        "conforming_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Packets"
+        },
+        "conforming_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Octets"
+        },
+        "exceeding_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Packets"
+        },
+        "exceeding_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Octets"
+        }
+      },
+      "title": "PolicerContainer2",
+      "type": "object"
+    },
+    "PolicerListEntry": {
+      "description": "List of policer templates used in subintreface and CPM Filter ACL.",
+      "properties": {
+        "name": {
+          "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,/_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,/_:;?-]*$).*$",
+          "title": "Name",
+          "type": "string"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum9"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "global"
+        },
+        "peak_rate": {
+          "anyOf": [
+            {
+              "maximum": 800000000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Peak Rate"
+        },
+        "max_burst": {
+          "anyOf": [
+            {
+              "maximum": 125000000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Burst"
+        },
+        "statistics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatisticsContainer5"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "PolicerListEntry",
+      "type": "object"
+    },
+    "PolicersContainer": {
+      "description": "Container for policer definitions used by ACL entries",
+      "properties": {
+        "system_cpu_policer": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/SystemCpuPolicerListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "System Cpu Policer"
+        },
+        "policer": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PolicerListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policer"
+        }
+      },
+      "title": "PolicersContainer",
+      "type": "object"
+    },
+    "PrefixListEntry": {
+      "description": "List of IPv4 prefixes",
+      "properties": {
+        "ipv4_prefix": {
+          "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))$).*$",
+          "title": "Ipv4 Prefix",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ipv4_prefix"
+      ],
+      "title": "PrefixListEntry",
+      "type": "object"
+    },
+    "PrefixListEntry2": {
+      "description": "List of IPv6 prefixes",
+      "properties": {
+        "ipv6_prefix": {
+          "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))$).*$",
+          "title": "Ipv6 Prefix",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ipv6_prefix"
+      ],
+      "title": "PrefixListEntry2",
+      "type": "object"
+    },
+    "PrefixListListEntry": {
+      "description": "Match a packet if its destination IP address is within the specified IPv4 prefix list.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "PrefixListListEntry",
+      "type": "object"
+    },
+    "PrefixListListEntry2": {
+      "description": "Match a packet if its source IP address is within the specified IPv4 prefix list.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "PrefixListListEntry2",
+      "type": "object"
+    },
+    "PrefixListListEntry3": {
+      "description": "Match a packet if its destination IP address is within the specified IPv6 prefix list.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "PrefixListListEntry3",
+      "type": "object"
+    },
+    "PrefixListListEntry4": {
+      "description": "Match a packet if its source IP address is within the specified IPv6 prefix list.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "PrefixListListEntry4",
+      "type": "object"
+    },
+    "RangeContainer": {
+      "description": "Container used to specify a contiguous range of TCP/UDP port numbers",
+      "properties": {
+        "start": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        }
+      },
+      "title": "RangeContainer",
+      "type": "object"
+    },
+    "RangeContainer2": {
+      "description": "Container used to specify a contiguous range of TCP/UDP port numbers",
+      "properties": {
+        "start": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        }
+      },
+      "title": "RangeContainer2",
+      "type": "object"
+    },
+    "RateLimitContainer": {
+      "description": "Rate-limit accepted packets",
+      "properties": {
+        "system_cpu_policer": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,/_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,/_:;?-]*$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "System Cpu Policer"
+        },
+        "policer": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,/_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,/_:;?-]*$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policer"
+        }
+      },
+      "title": "RateLimitContainer",
+      "type": "object"
+    },
+    "SourceIpContainer": {
+      "description": "Packet matching criteria based on source IPv4 address",
+      "properties": {
+        "prefix": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        },
+        "prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListListEntry2"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix List"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "mask": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mask"
+        }
+      },
+      "title": "SourceIpContainer",
+      "type": "object"
+    },
+    "SourceIpContainer2": {
+      "description": "Packet matching criteria based on source IPv6 address",
+      "properties": {
+        "prefix": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix"
+        },
+        "prefix_list": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PrefixListListEntry4"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prefix List"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "mask": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mask"
+        }
+      },
+      "title": "SourceIpContainer2",
+      "type": "object"
+    },
+    "SourcePortContainer": {
+      "description": "A packet matches this condition if its source TCP or UDP port number matches the value or range that is specified\n\nThe rule should also have a condition that the IP protocol equals 6 (TCP) or 17 (UDP) in order for this to be interpreted correctly.",
+      "properties": {
+        "operator": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum6"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/L4PortTypeType1"
+            },
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RangeContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "SourcePortContainer",
+      "type": "object"
+    },
+    "StatisticsContainer": {
+      "description": "Container for per-entry statistics",
+      "properties": {
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "matched_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Matched Packets"
+        },
+        "matched_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Matched Octets"
+        },
+        "last_match": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Match"
+        },
+        "system_cpu_policer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SystemCpuPolicerContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "StatisticsContainer",
+      "type": "object"
+    },
+    "StatisticsContainer2": {
+      "description": "Container for per-entry statistics",
+      "properties": {
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "matched_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Matched Packets"
+        },
+        "matched_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Matched Octets"
+        },
+        "last_match": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Match"
+        }
+      },
+      "title": "StatisticsContainer2",
+      "type": "object"
+    },
+    "StatisticsContainer3": {
+      "description": "Container for policer scope=subinterface and per-entry-statistics=false statistics",
+      "properties": {
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        },
+        "policer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PolicerContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "StatisticsContainer3",
+      "type": "object"
+    },
+    "StatisticsContainer4": {
+      "description": "Container for system CPU policer statistics\n\nNone of these statistics are populated if the policer is configured as entry-specific=true.",
+      "properties": {
+        "conforming_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Packets"
+        },
+        "conforming_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Octets"
+        },
+        "exceeding_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Packets"
+        },
+        "exceeding_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Octets"
+        },
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        }
+      },
+      "title": "StatisticsContainer4",
+      "type": "object"
+    },
+    "StatisticsContainer5": {
+      "description": "Container for linecard policer statistics.",
+      "properties": {
+        "aggregate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AggregateContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "StatisticsContainer5",
+      "type": "object"
+    },
+    "SystemCpuPolicerContainer": {
+      "description": "System CPU policer stats for traffic matching the entry:\n\nStatistics for system cpu policer configured with scope=global and entry-specific=true, and acl configured with subinterface-specific=false.",
+      "properties": {
+        "conforming_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Packets"
+        },
+        "conforming_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Conforming Octets"
+        },
+        "exceeding_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Packets"
+        },
+        "exceeding_octets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Exceeding Octets"
+        }
+      },
+      "title": "SystemCpuPolicerContainer",
+      "type": "object"
+    },
+    "SystemCpuPolicerListEntry": {
+      "description": "List of system CPU policer templates. For each policer in this list one or more policer instances are implemented in the XDP-CPM software and these policer instances process the aggregate of terminating traffic received from all linecards.",
+      "properties": {
+        "name": {
+          "pattern": "^(?=^[A-Za-z0-9!@#$%^&()|+=`~.,/_:;?-][A-Za-z0-9 !@#$%^&()|+=`~.,/_:;?-]*$).*$",
+          "title": "Name",
+          "type": "string"
+        },
+        "entry_specific": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "title": "Entry Specific"
+        },
+        "peak_packet_rate": {
+          "anyOf": [
+            {
+              "maximum": 4000000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Peak Packet Rate"
+        },
+        "max_packet_burst": {
+          "anyOf": [
+            {
+              "maximum": 4000000,
+              "minimum": 16,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 16,
+          "title": "Max Packet Burst"
+        },
+        "statistics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatisticsContainer4"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "SystemCpuPolicerListEntry",
+      "type": "object"
+    },
+    "TcamEntriesContainer": {
+      "description": "Information about the TCAM entries used to implement the ACL entry",
+      "properties": {
+        "forwarding_complex": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ForwardingComplexListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forwarding Complex"
+        }
+      },
+      "title": "TcamEntriesContainer",
+      "type": "object"
+    },
+    "TransportContainer": {
+      "description": "Container for the common layer-4 transport match criteria",
+      "properties": {
+        "destination_port": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DestinationPortContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_port": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourcePortContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tcp_flags": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^(\\(|\\)|&|\\||!|ack|rst|syn)+$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tcp Flags"
+        }
+      },
+      "title": "TransportContainer",
+      "type": "object"
+    }
+  },
+  "description": "Initialize an instance of this class and serialize it to JSON; this results in a RESTCONF payload.\n\n## Tips\nInitialization:\n- all values have to be set via keyword arguments\n- if a class contains only a `root` field, it can be initialized as follows:\n    - `member=MyNode(root=<value>)`\n    - `member=<value>`\n\nSerialziation:\n- `exclude_defaults=True` omits fields set to their default value (recommended)\n- `by_alias=True` ensures qualified names are used (necessary)",
+  "properties": {
+    "acl": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AclContainer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "title": "Model",
+  "type": "object"
+}

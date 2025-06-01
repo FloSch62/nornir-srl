@@ -1,0 +1,1213 @@
+{
+  "$defs": {
+    "AsyncContainer": {
+      "description": "Container for async BFD operational state parameters",
+      "properties": {
+        "last_packet_transmitted": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Packet Transmitted"
+        },
+        "last_packet_received": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Packet Received"
+        },
+        "transmitted_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Transmitted Packets"
+        },
+        "received_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Received Packets"
+        },
+        "up_transitions": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Up Transitions"
+        },
+        "received_errored_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Received Errored Packets"
+        },
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        }
+      },
+      "title": "AsyncContainer",
+      "type": "object"
+    },
+    "AsyncContainer2": {
+      "description": "Container for async BFD operational state parameters",
+      "properties": {
+        "last_packet_transmitted": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Packet Transmitted"
+        },
+        "last_packet_received": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Packet Received"
+        },
+        "transmitted_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Transmitted Packets"
+        },
+        "received_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Received Packets"
+        },
+        "up_transitions": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Up Transitions"
+        },
+        "received_errored_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Received Errored Packets"
+        },
+        "last_clear": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Clear"
+        }
+      },
+      "title": "AsyncContainer2",
+      "type": "object"
+    },
+    "BfdContainer": {
+      "description": "Context to configure BFD parameters and report BFD sessions state",
+      "properties": {
+        "subinterface": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/SubinterfaceListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subinterface"
+        },
+        "network_instance": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/NetworkInstanceListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Network Instance"
+        },
+        "total_bfd_sessions": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Total Bfd Sessions"
+        },
+        "total_unmatched_bfd_packets": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Total Unmatched Bfd Packets"
+        },
+        "micro_bfd_sessions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MicroBfdSessionsContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "BfdContainer",
+      "type": "object"
+    },
+    "EnumerationEnum": {
+      "enum": [
+        "enable",
+        "disable"
+      ],
+      "title": "EnumerationEnum",
+      "type": "string"
+    },
+    "EnumerationEnum2": {
+      "enum": [
+        "up",
+        "down",
+        "empty",
+        "downloading",
+        "booting",
+        "starting",
+        "failed",
+        "synchronizing",
+        "upgrading",
+        "low-power",
+        "degraded",
+        "warm-reboot",
+        "waiting"
+      ],
+      "title": "EnumerationEnum2",
+      "type": "string"
+    },
+    "EnumerationEnum3": {
+      "enum": [
+        "ADMIN_DOWN",
+        "DOWN",
+        "INIT",
+        "UP"
+      ],
+      "title": "EnumerationEnum3",
+      "type": "string"
+    },
+    "EnumerationEnum4": {
+      "enum": [
+        "NO_DIAGNOSTIC",
+        "DETECTION_TIMEOUT",
+        "ECHO_FAILED",
+        "NEIGHBOR_SIGNALED_DOWN",
+        "FORWARDING_RESET",
+        "PATH_DOWN",
+        "CONCATENATED_PATH_DOWN",
+        "ADMIN_DOWN",
+        "REVERSE_CONCATENATED_PATH_DOWN"
+      ],
+      "title": "EnumerationEnum4",
+      "type": "string"
+    },
+    "EnumerationEnum5": {
+      "enum": [
+        "sr-mpls-colored",
+        "sr-mpls-uncolored"
+      ],
+      "title": "EnumerationEnum5",
+      "type": "string"
+    },
+    "EnumerationEnum6": {
+      "enum": [
+        "LOCAL",
+        "PCEP"
+      ],
+      "title": "EnumerationEnum6",
+      "type": "string"
+    },
+    "EnumerationEnum7": {
+      "enum": [
+        "ADMIN_DOWN",
+        "DOWN",
+        "INIT",
+        "UP"
+      ],
+      "title": "EnumerationEnum7",
+      "type": "string"
+    },
+    "EnumerationEnum8": {
+      "enum": [
+        "NO_DIAGNOSTIC",
+        "DETECTION_TIMEOUT",
+        "ECHO_FAILED",
+        "NEIGHBOR_SIGNALED_DOWN",
+        "FORWARDING_RESET",
+        "PATH_DOWN",
+        "CONCATENATED_PATH_DOWN",
+        "ADMIN_DOWN",
+        "REVERSE_CONCATENATED_PATH_DOWN"
+      ],
+      "title": "EnumerationEnum8",
+      "type": "string"
+    },
+    "Ipv4AddressType": {
+      "pattern": "^(?=^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$).*$",
+      "title": "Ipv4AddressType",
+      "type": "string"
+    },
+    "Ipv6AddressType": {
+      "pattern": "^(?=^((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))$).*$",
+      "title": "Ipv6AddressType",
+      "type": "string"
+    },
+    "LagInterfaceListEntry": {
+      "description": "List of interface references to associate a micro-BFD session config and state",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "admin_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "disable"
+        },
+        "local_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Address"
+        },
+        "remote_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Address"
+        },
+        "desired_minimum_transmit_interval": {
+          "anyOf": [
+            {
+              "maximum": 100000000,
+              "minimum": 10000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1000000,
+          "title": "Desired Minimum Transmit Interval"
+        },
+        "required_minimum_receive": {
+          "anyOf": [
+            {
+              "maximum": 100000000,
+              "minimum": 10000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1000000,
+          "title": "Required Minimum Receive"
+        },
+        "detection_multiplier": {
+          "anyOf": [
+            {
+              "maximum": 20,
+              "minimum": 3,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 3,
+          "title": "Detection Multiplier"
+        },
+        "member_interface": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/MemberInterfaceListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Member Interface"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "LagInterfaceListEntry",
+      "type": "object"
+    },
+    "MemberInterfaceListEntry": {
+      "description": "List of interface references to associate a micro-BFD session config and state",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "session_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_session_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum7"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "last_state_transition": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last State Transition"
+        },
+        "last_failure_time": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Failure Time"
+        },
+        "failure_transitions": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Transitions"
+        },
+        "local_discriminator": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Discriminator"
+        },
+        "remote_discriminator": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Discriminator"
+        },
+        "local_diagnostic_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum8"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_diagnostic_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum8"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_minimum_receive_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Minimum Receive Interval"
+        },
+        "remote_control_plane_independent": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Control Plane Independent"
+        },
+        "active_transmit_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Active Transmit Interval"
+        },
+        "active_receive_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Active Receive Interval"
+        },
+        "remote_multiplier": {
+          "anyOf": [
+            {
+              "maximum": 255,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Multiplier"
+        },
+        "async_": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AsyncContainer2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "MemberInterfaceListEntry",
+      "type": "object"
+    },
+    "MicroBfdSessionsContainer": {
+      "description": "Context to configure micro-BFD session parameters and report sessions state",
+      "properties": {
+        "lag_interface": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/LagInterfaceListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lag Interface"
+        }
+      },
+      "title": "MicroBfdSessionsContainer",
+      "type": "object"
+    },
+    "NetworkInstanceListEntry": {
+      "description": "network-instance context for BFD session.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "peer": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PeerListEntry"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Peer"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "NetworkInstanceListEntry",
+      "type": "object"
+    },
+    "PeerListEntry": {
+      "description": "BFD session state related to this peer",
+      "properties": {
+        "local_discriminator": {
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Local Discriminator",
+          "type": "integer"
+        },
+        "oper_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum2"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ipv6_link_local_interface": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ipv6 Link Local Interface"
+        },
+        "ipv4_unnumbered_interface": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ipv4 Unnumbered Interface"
+        },
+        "local_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Address"
+        },
+        "remote_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Address"
+        },
+        "remote_discriminator": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Discriminator"
+        },
+        "subscribed_protocols": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subscribed Protocols"
+        },
+        "session_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum3"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_session_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum3"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "last_state_transition": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last State Transition"
+        },
+        "last_failure_time": {
+          "anyOf": [
+            {
+              "pattern": "^(?=^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$).*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Failure Time"
+        },
+        "failure_transitions": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Transitions"
+        },
+        "local_diagnostic_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum4"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_diagnostic_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum4"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "remote_minimum_receive_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Minimum Receive Interval"
+        },
+        "remote_control_plane_independent": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Control Plane Independent"
+        },
+        "active_transmit_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Active Transmit Interval"
+        },
+        "active_receive_interval": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Active Receive Interval"
+        },
+        "remote_multiplier": {
+          "anyOf": [
+            {
+              "maximum": 255,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Multiplier"
+        },
+        "te_policy_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Te Policy Name"
+        },
+        "te_policy_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum5"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "te_policy_segment_list_index": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Te Policy Segment List Index"
+        },
+        "te_policy_protocol_origin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum6"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "te_policy_segment_list_lsp_index": {
+          "anyOf": [
+            {
+              "maximum": 4294967295,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Te Policy Segment List Lsp Index"
+        },
+        "sr_policy_endpoint": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ipv4AddressType"
+            },
+            {
+              "$ref": "#/$defs/Ipv6AddressType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sr Policy Endpoint"
+        },
+        "async_": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AsyncContainer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "local_discriminator"
+      ],
+      "title": "PeerListEntry",
+      "type": "object"
+    },
+    "SubinterfaceListEntry": {
+      "description": "List of subinterface references to associating BFD config and state",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "admin_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationEnum"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "disable"
+        },
+        "desired_minimum_transmit_interval": {
+          "anyOf": [
+            {
+              "maximum": 100000000,
+              "minimum": 10000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1000000,
+          "title": "Desired Minimum Transmit Interval"
+        },
+        "required_minimum_receive": {
+          "anyOf": [
+            {
+              "maximum": 100000000,
+              "minimum": 10000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1000000,
+          "title": "Required Minimum Receive"
+        },
+        "detection_multiplier": {
+          "anyOf": [
+            {
+              "maximum": 20,
+              "minimum": 3,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 3,
+          "title": "Detection Multiplier"
+        },
+        "minimum_echo_receive_interval": {
+          "anyOf": [
+            {
+              "maximum": 100000000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "title": "Minimum Echo Receive Interval"
+        },
+        "max_hop_count": {
+          "anyOf": [
+            {
+              "maximum": 255,
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 255,
+          "title": "Max Hop Count"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "SubinterfaceListEntry",
+      "type": "object"
+    }
+  },
+  "description": "Initialize an instance of this class and serialize it to JSON; this results in a RESTCONF payload.\n\n## Tips\nInitialization:\n- all values have to be set via keyword arguments\n- if a class contains only a `root` field, it can be initialized as follows:\n    - `member=MyNode(root=<value>)`\n    - `member=<value>`\n\nSerialziation:\n- `exclude_defaults=True` omits fields set to their default value (recommended)\n- `by_alias=True` ensures qualified names are used (necessary)",
+  "properties": {
+    "bfd": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BfdContainer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "title": "Model",
+  "type": "object"
+}
